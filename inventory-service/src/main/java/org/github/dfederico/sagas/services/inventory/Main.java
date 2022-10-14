@@ -38,7 +38,7 @@ public class Main {
         port(Integer.parseInt(appPort));
         path("/api", () -> {
             before("/*", "application/json", (request, response) -> log.debug("Received API call {}", request.pathInfo()));
-            get("/product-stocks", (request, response) -> {
+            get("/products", (request, response) -> {
                 response.type("application/json");
                 return inventoryService.getAvailableStock();
             }, model -> {

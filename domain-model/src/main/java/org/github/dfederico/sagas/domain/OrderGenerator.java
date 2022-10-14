@@ -22,14 +22,14 @@ public class OrderGenerator {
                 .build();
     }
 
-    public static Order generateRandomOrder(String customerId, String productId, int quantity) {
+    public static Order generateRandomOrder(String customerId, String productId, int quantity, int unitPrice) {
         return Order.builder()
                 .id(orderIdSequence.getAndAdd(RANDOM.nextInt(5)))
                 .customerId(customerId)
                 .productId(productId)
                 .status("NEW")
                 .units(quantity)
-                .unitPrice((int) (RANDOM.nextDouble()*10000))
+                .unitPrice(unitPrice)
                 .build();
     }
 }

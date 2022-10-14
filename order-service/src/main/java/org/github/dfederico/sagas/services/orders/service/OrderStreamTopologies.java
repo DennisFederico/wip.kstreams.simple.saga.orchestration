@@ -75,7 +75,6 @@ public class OrderStreamTopologies {
         String ordersTopic = properties.getProperty("orders.request.topic");
 
         final Serde<Order> orderSerde = buildOrderSerde();
-        //final StreamsBuilder streamBuilder = new StreamsBuilder();
         KStream<Integer, Order> paymentStream = streamBuilder.stream(paymentsResponseTopic, Consumed.with(Serdes.Integer(), orderSerde));
         KStream<Integer, Order> inventoryStream = streamBuilder.stream(inventoryResponseTopic, Consumed.with(Serdes.Integer(), orderSerde));
 
@@ -85,7 +84,7 @@ public class OrderStreamTopologies {
                         StreamJoined.with(Serdes.Integer(), orderSerde, orderSerde))
                 .peek((key, order) -> log.info(">>>>> JOIN RESULT {}:{}", key, order))
                 .to(ordersTopic, Produced.with(Serdes.Integer(), orderSerde));
-        // return paymentStream;
+        //TODO NOT MATCHING (OUT-OF-ORDER)
         return streamBuilder;
     }
 

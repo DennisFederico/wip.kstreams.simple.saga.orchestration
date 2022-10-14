@@ -80,14 +80,19 @@ public class Main {
                 return order;
             });
 
-            post("/orders/:customer/:product/:quantity", (request, response) -> OrderGenerator.generateRandomOrder(
-                    request.params(":customer"), request.params(":product"), Integer.parseInt(request.params(":quantity"))
-            ).toString());
-
-            get("/orders/*", (request, response) -> {
+            post("/orders/:customer/:product/:quantity/:unit_price", (request, response) -> {
+                Order order = OrderGenerator.generateRandomOrder(
+                        request.params(":customer"),
+                        request.params(":product"),
+                        Integer.parseInt(request.params(":quantity")),
+                        Integer.parseInt(request.params(":unit_price")));
+                orderService.ProduceOrder(order);
+                return order;
+            });
+            get("/orders/:orderId", (request, response) -> {
                 response.type("application/json");
-                Integer orderId = Integer.valueOf(request.splat()[0]);
-                //int orderId = Integer.parseInt(request.params(":id"));
+                //Integer orderId = Integer.valueOf(request.splat()[0]);
+                Integer orderId = Integer.valueOf(request.params(":orderId"));
                 Order order = ordersStore.get(orderId);
                 return order;
             }, model -> objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(model));
