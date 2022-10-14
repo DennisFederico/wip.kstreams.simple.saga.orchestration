@@ -1,4 +1,4 @@
-# SAGAS EXAMPLE
+# SAGA EXAMPLE
 
 ## Architecture
 
